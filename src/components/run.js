@@ -2,10 +2,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './Main';
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
+
+import Landing from './LandingComponent'
+import Results from './ResultsComponent'
+import Abstract from './AbstractComponent'
+
 
 import appReducer from './../reducers/reducer';
 
@@ -21,7 +26,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
-       <IndexRoute></IndexRoute>
+       <IndexRoute component={Landing}></IndexRoute>
         <Route path="search" component={Results}/>
         <Route path="abstract" component={Abstract}/>
       </Route>

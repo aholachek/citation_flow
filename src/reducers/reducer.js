@@ -14,5 +14,5 @@ function currentBibcode( state = initialState, action){
 export default combineReducers({
   currentQuery,
   currentBibcode,
-  routerReducer
+  routing:routerReducer
 })
