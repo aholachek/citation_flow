@@ -1,0 +1,7 @@
+{
+  "generator-react-webpack": {
+    "appName": "reactBbb",
+    "style": "less",
+    "postcss": false
+  }
+}
