@@ -19,8 +19,8 @@ module.exports = {
     port: port,
     publicPath: publicPath,
     noInfo: false
-  },
-  resolve: {
+},
+resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
       actions: srcPath + '/actions/',

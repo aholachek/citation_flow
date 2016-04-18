@@ -1,26 +1,50 @@
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './Main';
-import { createStore } from 'redux'
+require('styles/App.less');
+
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+import _ from 'lodash'
+import App from './App';
 import { Provider } from 'react-redux'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
+
+import thunkMiddleware from 'redux-thunk'
+import createLogger from 'redux-logger'
+
+import { createStore, applyMiddleware } from 'redux'
 
 import Landing from './LandingComponent'
 import Results from './ResultsComponent'
 import Abstract from './AbstractComponent'
 
+import appReducer from './../reducers/reducer'
 
-import appReducer from './../reducers/reducer';
+import  { startSearch } from './../actions/actions'
 
-// Add the reducer to your store on the `routing` key
+const loggerMiddleware = createLogger()
+const historyMiddleware = routerMiddleware(browserHistory)
+
+
 const store = createStore(
-  appReducer
+  appReducer,
+  applyMiddleware(
+   thunkMiddleware, // lets us dispatch() functions
+   loggerMiddleware, // neat middleware that logs actions
+   historyMiddleware
+ )
 )
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store)
+
+history.listen(location => {
+  if (location.pathname !== '/search') return
+  if (!location.query.q) return
+    store.dispatch(startSearch(location.query.q))
+});
+
 
 ReactDOM.render(
   <Provider store={store}>
@@ -28,7 +52,7 @@ ReactDOM.render(
       <Route path="/" component={App}>
        <IndexRoute component={Landing}></IndexRoute>
         <Route path="search" component={Results}/>
-        <Route path="abstract" component={Abstract}/>
+        <Route path="abstract/:bibcode" component={Abstract}/>
       </Route>
     </Router>
   </Provider>,
