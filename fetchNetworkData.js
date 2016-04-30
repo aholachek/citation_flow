@@ -14,7 +14,7 @@ var auth = 'Bearer:gAXahb46vayEAL32jnxIkHUlKQwvXKd9mHCINwS6';
 
 const rowLimit = 50;
 // totalSecondaryLimit * rowLimit = total rows requested
-const totalSecondaryLimit = 4;
+const totalSecondaryLimit = 2;
 
 function fetchSecondary(field) {
 
