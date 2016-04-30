@@ -101,7 +101,7 @@ class ResultsComponent extends React.Component {
     let listView;
 
     if (!this.props.results){
-      return (<div className="ui loader active"></div>)
+    return (<div className="ui loader active">building citation network...</div>)
     }
     else {
       listView = (

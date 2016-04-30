@@ -20,7 +20,7 @@ class LandingComponent extends React.Component {
         <div style={{width: '600px', margin : '60px auto'}}>
           <p>
             This tool shows <b>relationships between papers</b> in your search results set, including <b>papers that could
-            not have been returned by your query term</b> but which are <b>referenced or cited heavily</b> by your search result set.
+            not have been returned by your query term</b> but which are <b>referenced (pink) or cited (blue) heavily</b> by your search result set.
           </p>
           <p>
             The results are then visualized in an interactive flow diagram. An auto-filtering list of your results is also provided.
