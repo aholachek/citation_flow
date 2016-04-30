@@ -216,7 +216,7 @@ function createNetworkStructure(options){
       //2, result --> reference
       //3 result --> citation
       if ( _.findWhere(stash.nodes, {bibcode: r}) ){
-
+        //ignore for now
         addLink({
           from: doc.bibcode,
           to: r

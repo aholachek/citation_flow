@@ -16,17 +16,32 @@ class SankeyD3Component extends React.Component {
 }
 
   renderGraph(props) {
+    //props are supplied only on update
 
-    props = props || {};
+    endAllAnimations();
 
-    let data = props.data || this.props.data;
+    let showResultsConnections = props ? props.showResultsConnections : this.props.showResultsConnections;
+    let data = props ? props.data : this.props.data;
+    let xArrange = props ? props.xArrange : this.props.xArrange;
 
-    let xArrange = props.xArrange || this.props.xArrange || 'default' ;
+    let filteredLinks;
+
+    if (showResultsConnections === false){
+      //remove those links
+      filteredLinks = data.links.filter(function(l){
+        let source = data.nodes[l.source];
+        let target = data.nodes[l.target];
+        if (!(source.node_category.indexOf('result') > -1 && target.node_category.indexOf('result') > -1)){
+          return true;
+        }
+      });
+    } else {
+      filteredLinks = data.links;
+    }
 
      const height = this.props.height || 900;
      const width = this.props.width || 1100;
-
-    const that = this;
+     const that = this;
 
     let svg = d3.select(ReactDOM.findDOMNode(this))
       .attr('width', width)
@@ -92,7 +107,7 @@ class SankeyD3Component extends React.Component {
       //extra space for labels
       .size([width - 150, height - 150])
       .nodes(_.cloneDeep(data.nodes))
-      .links(_.cloneDeep(data.links))
+      .links(_.cloneDeep(filteredLinks))
       .layout(80, {
         xPos: xArrange,
         width: width
@@ -143,7 +158,7 @@ class SankeyD3Component extends React.Component {
       });
 
       nodeSelection
-      .selectAll('rect')
+      .select('rect')
       .attr('height', function(d) {
              return d.dy;
        })

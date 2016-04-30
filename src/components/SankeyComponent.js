@@ -14,6 +14,7 @@ class SankeyComponent extends React.Component {
     this.state = {
       loading: true,
       xArrange : 'default',
+      showResultsConnections : false,
       focusedPaper : {}
     }
 
@@ -24,9 +25,9 @@ class SankeyComponent extends React.Component {
     let focusDetails;
 
     let key = _.pairs(colorMap).map(function(c){
-      return <li style={{display : 'inline'}}>
+      return <li style={{display : 'inline', padding : '0px'}}>
         <div style={{backgroundColor : c[1], width: '10px', height : '10px', display : 'inline-block', opacity : .6}}/>
-         &nbsp;{c[0]}&nbsp;&nbsp;</li>
+         &nbsp;{c[0]}&nbsp;set&nbsp;&nbsp;</li>
     });
 
     if (!this.props.network ){
@@ -46,6 +47,15 @@ class SankeyComponent extends React.Component {
             <div className='ui grid paper-details'>
 
               <div className="five wide column">
+                <div>
+                  <label htmlFor="">
+                    <input type="checkbox"
+                      checked={this.state.showResultsConnections}
+                      onChange={function(){this.setState({showResultsConnections : !this.state.showResultsConnections})}.bind(this)}
+                      />
+                    <b> show links between results papers</b>
+                  </label>
+                </div>
                 <ul style={{listStyle : 'none', margin : '0'}}>{key}</ul>
               </div>
 
@@ -81,6 +91,7 @@ class SankeyComponent extends React.Component {
             xArrange={this.state.xArrange}
             data={this.props.network}
             updateHistory={this.props.updateHistory}
+            showResultsConnections={this.state.showResultsConnections}
             />
         </div>
       </div>
