@@ -13,14 +13,11 @@
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
-
     "webpack-start": "node server.js",
     "dev-express-start": "node test-express-server.js --env=dev",
-    "dev-start" : "node server.js && npm run-script dev-express-start",
-
+    "dev-start": "node server.js && npm run-script dev-express-start",
     "deploy-start": "node express-server.js --env=dist",
     "start": "npm run-script deploy-start",
-
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false"
   },
@@ -78,6 +75,7 @@
     "d3-plugins-sankey": "^1.2.1",
     "d3-tip": "^0.6.7",
     "exports-loader": "^0.6.3",
+    "express": "^4.13.4",
     "immutable": "^3.8.1",
     "imports-loader": "^0.6.5",
     "install": "^0.6.1",
