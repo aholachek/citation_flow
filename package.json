@@ -6,16 +6,21 @@
   "main": "",
   "scripts": {
     "clean": "rimraf dist/*",
-    "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
+    "copy": "mkdir -p dist && cp ./src/index.html ./dist/ && cp -r ./src/images/ ./dist/images/ && cp -r ./src/favicons/ ./dist/favicons/",
     "dist": "npm run copy & webpack --env=dist",
     "lint": "eslint ./src",
     "posttest": "npm run lint",
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
-    "serve": "npm run-script start",
-    "serve:dist": "node server.js --env=dist && node ads-proxy-server.js",
-    "start": "node server.js --env=dev && node ads-proxy-server.js",
+
+    "webpack-start": "node server.js",
+    "dev-express-start": "node test-express-server.js --env=dev",
+    "dev-start" : "node server.js && npm run-script dev-express-start",
+
+    "deploy-start": "node express-server.js --env=dist",
+    "start": "npm run-script deploy-start",
+
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false"
   },
@@ -32,9 +37,12 @@
     "chai": "^3.2.0",
     "copyfiles": "^0.2.1",
     "css-loader": "^0.23.0",
-    "eslint": "^1.2.1",
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^7.0.0",
     "eslint-loader": "^1.0.0",
-    "eslint-plugin-react": "^3.3.0",
+    "eslint-plugin-import": "^1.5.0",
+    "eslint-plugin-jsx-a11y": "^0.6.2",
+    "eslint-plugin-react": "^3.16.1",
     "file-loader": "^0.8.4",
     "glob": "^6.0.0",
     "isparta-instrumenter-loader": "^1.0.0",
@@ -47,6 +55,8 @@
     "karma-phantomjs-shim": "^1.1.1",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
+    "less": "^2.5.3",
+    "less-loader": "^2.0.0",
     "minimist": "^1.2.0",
     "mocha": "^2.2.5",
     "null-loader": "^0.1.1",
@@ -57,17 +67,21 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.0",
-    "webpack-dev-server": "^1.12.0",
-    "less-loader": "^2.0.0",
-    "less": "^2.5.3"
+    "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
+    "bluebird": "^3.3.5",
+    "classnames": "^2.2.3",
     "core-js": "^1.2.6",
     "cors": "^2.7.1",
-    "es6-promise": "^3.1.2",
+    "d3": "^3.5.16",
+    "d3-plugins-sankey": "^1.2.1",
+    "d3-tip": "^0.6.7",
     "exports-loader": "^0.6.3",
+    "immutable": "^3.8.1",
     "imports-loader": "^0.6.5",
     "install": "^0.6.1",
+    "jsnetworkx": "^0.3.4",
     "lodash": "^3.10.1",
     "normalize.css": "^3.0.3",
     "npm": "^3.8.6",
@@ -82,7 +96,6 @@
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1",
     "request": "^2.72.0",
-    "semantic-ui": "^2.1.8",
-    "whatwg-fetch": "^0.11.0"
+    "semantic-ui": "^2.1.8"
   }
 }

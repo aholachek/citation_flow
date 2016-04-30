@@ -3,12 +3,88 @@
 
 @import "./semantic/src/semantic";
 
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
 
-.footer {
 
+.logo {
+  margin: 10px 20px;
+  position:relative;
+  display:inline-block
+}
+
+.logo i {
+  width: 22px;
+}
+
+.menu h1 {
+  display: inline-block;
+  margin:10px 0;
+}
+
+.item:not(.active)>h2 {
+  color: gray
 }
 
 
 .app-changing {
   min-height: 80vh;
+}
+
+.results-list__header {
+  text-align: center;
+  display:inline-block;
+  padding: 1rem;
+  margin: 0rem;
+  font-variant: small-caps;
+  text-transform: lowercase;
+  font-size: 2.4rem;
+  text-align: center;
+  width: 100%;
+
+}
+
+.results-list__container {
+  position:relative;
+}
+
+.results-list__container .column ol {
+  max-height: 70vh;
+  min-height: 400px;
+  overflow: auto;
+}
+
+.reference-connector {
+  width: 2px;
+  height: 500px;
+  padding: 0 !important;
+  transform-origin: 0 0;
+  position:relative;
+  z-index:-1;
+  opacity: .2;
+}
+
+.header-link {
+  color: lightgray;
+  font-weight: 300;
+  font-size: 1.6rem;
+  top: 5px;
+  position: relative;
+}
+
+.abstract-component {
+  width: 90%;
+  max-width: 900px;
+  margin: auto;
+  height: 200px;
+  overflow: auto;
+  margin-bottom: 20px;
 }

@@ -40,11 +40,10 @@ const store = createStore(
 const history = syncHistoryWithStore(browserHistory, store)
 
 history.listen(location => {
-  if (location.pathname !== '/search') return
+  if (location.pathname.replace(/\//g, "") !== 'search') return
   if (!location.query.q) return
-    store.dispatch(startSearch(location.query.q))
+    store.dispatch(startSearch(location.query.q, location.query.sort ))
 });
-
 
 ReactDOM.render(
   <Provider store={store}>

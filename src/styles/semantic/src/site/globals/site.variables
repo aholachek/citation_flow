@@ -3,3 +3,17 @@
 @fontPath : '../assets/fonts';
 
 @fontSize    : 16px;
+
+
+/* Colors */
+@purple: #4030e8;
+@pink: #e8308c;
+@green: #16c79e;
+@primaryColor: @purple;
+@secondaryColor: @green;
+
+
+/* Links */
+@linkColor: desaturate(@purple, 25%);
+@linkHoverColor: desaturate(@purple, 10%);
+@linkHoverUnderline: underline;
