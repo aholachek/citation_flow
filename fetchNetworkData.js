@@ -1,13 +1,15 @@
 'use strict'
 
 var express = require('express');
-var Promise = require("bluebird");
-var request = require("request");
+var Promise = require('bluebird');
+var request = require('request');
 Promise.promisifyAll(request);
 
 var createNetworkStructure = require('./createNetwork');
 
 var endpoint = 'https://api.adsabs.harvard.edu/v1/search/query';
+var ADS_KEY = process.env.ADS_KEY ? process.env.ADS_KEY : require('./ads-dev-key');
+
 var auth = 'Bearer:gAXahb46vayEAL32jnxIkHUlKQwvXKd9mHCINwS6';
 
 const rowLimit = 50;
@@ -104,7 +106,7 @@ function fetchNetwork(req, res) {
         .map(function(d) {
           return d.bibcode
         })
-        .join(" OR ");
+        .join(' OR ');
       query = 'bibcode:(' + query + ')';
 
       Promise.all([getCitations(query, req.query.q), getReferences(query, req.query.q)])
