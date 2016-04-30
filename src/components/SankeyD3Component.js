@@ -84,8 +84,7 @@ class SankeyD3Component extends React.Component {
 
     }
 
-    let link = svg.select('.link-container');
-    let node = svg.select('.node-container');
+
 
     function chooseColor(categoryList) {
       if (categoryList.indexOf('result') > -1) return colorMap.result;
@@ -111,11 +110,23 @@ class SankeyD3Component extends React.Component {
         width: width
       });
 
+      let link = svg.select('.link-container');
+      let node = svg.select('.node-container');
 
-    let linkSelection = link.selectAll('.link')
+      let nodeSelection = node.selectAll('.node')
+        .data(sankey.nodes().filter(function(n) {
+          if (n.sourceLinks.length || n.targetLinks.length) return true;
+          return false;
+        }), function(d) {
+          return d.bibcode
+        });
+
+      let linkSelection = link.selectAll('.link')
       .data(sankey.links(), function(d) {
         return d.source.bibcode + d.target.bibcode
       });
+
+      endAllAnimations();
 
     linkSelection
       .enter()
@@ -140,23 +151,10 @@ class SankeyD3Component extends React.Component {
         return b.dy - a.dy;
       })
       .classed('time-arrange', function(){return xArrange === 'time'})
-      .transition()
       .style('stroke-width', function(d) {
         return Math.max(1, d.dy);
       })
       .attr('d', sankey.link());
-
-    let nodeSelection = node.selectAll('.node')
-      //due to culling some nodes no longer have links
-      .data(sankey.nodes().filter(function(n) {
-        if (n.sourceLinks.length || n.targetLinks.length) return true;
-        return false;
-      }), function(d) {
-        return d.bibcode
-      });
-
-      //stop any animations in progress
-      endAllAnimations();
 
       nodeSelection
       .select('rect')
