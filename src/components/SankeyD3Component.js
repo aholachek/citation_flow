@@ -18,8 +18,6 @@ class SankeyD3Component extends React.Component {
   renderGraph(props) {
     //props are supplied only on update
 
-    endAllAnimations();
-
     let showResultsConnections = props ? props.showResultsConnections : this.props.showResultsConnections;
     let data = props ? props.data : this.props.data;
     let xArrange = props ? props.xArrange : this.props.xArrange;
@@ -156,6 +154,9 @@ class SankeyD3Component extends React.Component {
       }), function(d) {
         return d.bibcode
       });
+
+      //stop any animations in progress
+      endAllAnimations();
 
       nodeSelection
       .select('rect')
