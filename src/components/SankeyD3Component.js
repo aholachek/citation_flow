@@ -18,22 +18,36 @@ class SankeyD3Component extends React.Component {
   renderGraph(props) {
     //props are supplied only on update
 
-    let showResultsConnections = props ? props.showResultsConnections : this.props.showResultsConnections;
+    let showAllConnections = props ? props.showAllConnections : this.props.showAllConnections;
     let data = props ? props.data : this.props.data;
     let xArrange = props ? props.xArrange : this.props.xArrange;
 
     let filteredLinks;
 
-    if (showResultsConnections === false){
+    if (showAllConnections === false){
       //remove those links
       filteredLinks = data.links.filter(function(l){
         let source = data.nodes[l.source];
         let target = data.nodes[l.target];
-        if (!(source.node_category.indexOf('result') > -1 && target.node_category.indexOf('result') > -1)){
+        if (
+            (
+            source.node_category.indexOf('reference') > -1
+            && source.node_category.indexOf('result') === -1
+            && target.node_category.indexOf('result') > -1
+          )
+            ||
+            (
+              source.node_category.indexOf('result') > -1
+              && target.node_category.indexOf('result') === -1
+              && target.node_category.indexOf('reference') === -1
+              && target.node_category.indexOf('citation') > -1
+            )
+        ){
           return true;
         }
       });
-    } else {
+    }
+    else {
       filteredLinks = data.links;
     }
 
@@ -83,8 +97,6 @@ class SankeyD3Component extends React.Component {
       });
 
     }
-
-
 
     function chooseColor(categoryList) {
       if (categoryList.indexOf('result') > -1) return colorMap.result;
@@ -154,6 +166,7 @@ class SankeyD3Component extends React.Component {
       .style('stroke-width', function(d) {
         return Math.max(1, d.dy);
       })
+      .transition()
       .attr('d', sankey.link());
 
       nodeSelection
@@ -192,7 +205,7 @@ class SankeyD3Component extends React.Component {
 
         let focusedNodes = svg.selectAll('.node').filter(function(n) {
         if (focusedNodeData.indexOf(n) > -1) return  true;
-        });
+        }).classed('focused', true);
 
         otherNodes.style('opacity', .05);
 
@@ -240,12 +253,9 @@ class SankeyD3Component extends React.Component {
          .ease('linear')
          .attr('stroke-dashoffset', 0)
          .each('start', function(){
-           let nodeHighlight =  (l.source.bibcode === d.bibcode) ? l.target : l.source;
-           nodeHighlight = focusedNodes.filter(function(d){return d.bibcode == nodeHighlight.bibcode});
-           nodeHighlight.classed('focused', true);
-           setTimeout(function(){
-             nodeHighlight.classed('focused', false);
-           }, interval)
+          //  let nodeHighlight =  (l.source.bibcode === d.bibcode) ? l.target : l.source;
+          //  nodeHighlight = focusedNodes.filter(function(d){return d.bibcode == nodeHighlight.bibcode});
+          //  nodeHighlight.classed('focused', true);
          });
 
        });
@@ -261,6 +271,7 @@ class SankeyD3Component extends React.Component {
 
       linkSelection
       .attr('stroke-dashoffset', 0)
+      .attr('stroke-dasharray', null)
       .style({'stroke-opacity' : null, 'opacity' : null})
     }
 
@@ -309,14 +320,14 @@ class SankeyD3Component extends React.Component {
         let counter = 0;
         while (true) {
           counter++;
-          let text = t.splice(0, 5).join(' ');
-          if (counter > 2 && t.length) text += '...'
+          let text = t.splice(0, 6).join(' ');
+          if (counter > 1 && t.length) text += '...'
           d3.select(this).append('tspan')
             .text(text)
             .attr('x', '0')
-            .attr('dy', '12px');
+            .attr('dy', '11px');
           if (!t.length) return
-          if (counter > 2) return
+          if (counter > 1) return
         }
       });
 

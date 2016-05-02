@@ -33,6 +33,7 @@ function fetchSecondary(field) {
       let start = counter * rowLimit;
 
       let q = field + '(' + query + ') -' + originalQuery;
+      if (field === 'citations') q +=' -references(' + originalQuery + ')';
 
       return request.getAsync({
           uri: endpoint,

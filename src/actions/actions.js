@@ -3,7 +3,7 @@ import qwest from 'qwest';
 
 let searchEndpoint = '/build-network';
 //comment out this line when running dist
-// searchEndpoint = 'http://localhost:4000/build-network';
+searchEndpoint = 'http://localhost:4000/build-network';
 
 //action creators
 

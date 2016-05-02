@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var jsnx = require('jsnetworkx');
 
-const bibLimit = 40;
+const bibLimit = 25;
 
 
 function addOrGetNode(bibcode, data, stash ){
@@ -262,8 +262,8 @@ function createNetworkStructure(options){
 
   }, this);
 
-  //only add these connections for a bibcode query
-  if (query.match(/^bibcode:.{19}\s*/)){
+  // //only add these connections for a bibcode query
+  // if (query.match(/^bibcode:.{19}\s*/)){
 
     //now that all base records are added, check for connections
     //between references or citations
@@ -293,7 +293,7 @@ function createNetworkStructure(options){
         }, this);
       }, this);
 
-  }
+  // }
 
 
   //now dedupe since some links could be added multiple times (e.g. citations)

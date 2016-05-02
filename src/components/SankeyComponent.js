@@ -14,7 +14,7 @@ class SankeyComponent extends React.Component {
     this.state = {
       loading: true,
       xArrange : 'default',
-      showResultsConnections : false,
+      showAllConnections : false,
       focusedPaper : {}
     }
 
@@ -50,13 +50,13 @@ class SankeyComponent extends React.Component {
                 <div>
                   <label htmlFor="">
                     <input type="checkbox"
-                      checked={this.state.showResultsConnections}
-                      onChange={function(){this.setState({showResultsConnections : !this.state.showResultsConnections})}.bind(this)}
+                      checked={this.state.showAllConnections}
+                      onChange={function(){this.setState({showAllConnections : !this.state.showAllConnections})}.bind(this)}
                       />
-                    <b> show links between results papers</b>
+                    <b> show interlinks between all papers</b>
                   </label>
                 </div>
-                <ul style={{listStyle : 'none', margin : '0'}}>{key}</ul>
+                <ul style={{listStyle : 'none', padding : '0', margin: '0'}}>{key}</ul>
               </div>
 
             <div className='five wide column'>
@@ -91,7 +91,7 @@ class SankeyComponent extends React.Component {
             xArrange={this.state.xArrange}
             data={this.props.network}
             updateHistory={this.props.updateHistory}
-            showResultsConnections={this.state.showResultsConnections}
+            showAllConnections={this.state.showAllConnections}
             />
         </div>
       </div>
