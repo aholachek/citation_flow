@@ -218,7 +218,7 @@ class SankeyD3Component extends React.Component {
             return true;
           });
 
-        otherLinks.style({'stroke-opacity' : 0.01, 'opacity' : .5});
+        otherLinks.classed("link-deemphasize", true)
 
       let focusedLinks =  svg.selectAll('.link')
         .filter(function(l) {
@@ -267,12 +267,12 @@ class SankeyD3Component extends React.Component {
       .classed('focused', false)
       .classed('focused-primary', false);
       //cancel animation
-      linkSelection.transition()
+      linkSelection.transition();
 
-      linkSelection
+      linkSelection.classed("link-deemphasize", false)
+      .style('stroke-opacity', null)
       .attr('stroke-dashoffset', 0)
       .attr('stroke-dasharray', null)
-      .style({'stroke-opacity' : null, 'opacity' : null})
     }
 
     let enteredNodes = nodeSelection
@@ -281,16 +281,8 @@ class SankeyD3Component extends React.Component {
       .attr('class', 'node')
       .attr('transform', function(d) {
         return 'translate(' + d.x + ',' + d.y + ')';
-      })
-      .on('click', function(d) {
-        that.props.updateHistory('/search/?q=bibcode:' + encodeURIComponent(d.bibcode));
-      })
-      .on('mouseover', function() {
-        if (!that.props.autoplay) startAnimation(this);
-      })
-      .on('mouseout', function(d) {
-        if (!that.props.autoplay) endAllAnimations();
       });
+
 
     enteredNodes.append('rect')
       .attr('width', sankey.nodeWidth())
@@ -336,6 +328,17 @@ class SankeyD3Component extends React.Component {
           startAnimation(nodeSelection[0][0])
         }, 2000)
       }
+
+    //finally, apply fresh event listeners
+    nodeSelection.on('click', function(d) {
+      that.props.updateHistory('/search/?q=bibcode:' + encodeURIComponent(d.bibcode));
+    })
+    .on('mouseenter', function() {
+      if (!that.props.autoplay) startAnimation(this);
+    })
+    .on('mouseleave', function(d) {
+      if (!that.props.autoplay) endAllAnimations();
+    });
 
   }
 
