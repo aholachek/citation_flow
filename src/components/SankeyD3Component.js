@@ -225,7 +225,7 @@ class SankeyD3Component extends React.Component {
           if (d.targetLinks.indexOf(l) > -1 || d.sourceLinks.indexOf(l) > -1) return true;
         });
 
-       let interval = 1200;
+       let interval = 400;
        //should there be a next loop?
        if (that.props.autoplay && !that.unmounted){
          let index;
